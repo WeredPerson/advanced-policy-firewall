@@ -18,6 +18,15 @@ head() {
 	echo ""
 }
 
+#check to see if IP addresses are valid.
+for address in "${@:2}"; do
+   validate='([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+   if ! [[ $address =~ ^$validate\.$validate\.$validate\.$validate$ ]]; then
+      echo "Invalid IP: "$address
+      exit
+   fi
+done
+
 if [ -f "$CNF" ] && [ ! "$CNF" == "" ]; then
    source $CNF
 else
